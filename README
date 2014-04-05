@@ -1,0 +1,32 @@
+simple_http - Using C & WinInet to do simple HTTP stuff
+
+=== general
+It should support a preconfigured IE proxy, depending on what I need I'll add more stuff to it. 
+The following list of functions will be updated as needed:
+
+DWORD http_get_content(char *target, unsigned char **response_data);
+DWORD http_post_binary(char *target, unsigned char *post_data, int post_data_length, unsigned char **response_data);
+
+=== example usage
+
+int main(int argc, char *argv[]){
+	unsigned char *http_response_content = NULL;
+	HANDLE tempfile = NULL;
+	DWORD tempfilesize = 0;
+	unsigned char *readbuffer;
+	DWORD readbytes = 0;
+	DWORD http_response_code = -1;
+
+	tempfile = CreateFile("../a.dll", GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	tempfilesize = GetFileSize(tempfile, NULL);
+	readbuffer = malloc(tempfilesize);
+	ReadFile(tempfile, readbuffer, tempfilesize, &readbytes, NULL);
+	CloseHandle(tempfile);
+	http_response_code = http_post_binary("http://10.0.0.2:8008/", readbuffer, tempfilesize, &http_response_content);
+	printf("%d\n", http_response_code);
+	printf("%s\n", http_response_content);
+	http_response_code = http_get_content("http://10.50.0.122:8008/", &http_response_content);
+	printf("%d\n", http_response_code);
+	printf("%s\n", http_response_content);	
+
+}
