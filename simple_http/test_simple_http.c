@@ -27,7 +27,7 @@ int main(int argc, char *argv[]){
 	printf("%d\n", http_response_code);
 	printf("%s\n", http_response_content);
 
-	http_response_code = https_get_content("https://www.fox-it.com/", &http_response_content);
+	http_response_code = https_get_content("https://www.fox-it.com:443/", &http_response_content);
 	printf("%d\n", http_response_code);
 	printf("%s\n", http_response_content);
 

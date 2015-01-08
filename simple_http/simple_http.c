@@ -399,7 +399,7 @@ DWORD https_get_content(char *target, unsigned char **response_data){
 	return response_code;
 }
 
-DWORD https_post_binary(char *target, unsigned char **response_data){
+DWORD https_post_binary(char *target, unsigned char *post_data, int post_data_length, unsigned char **response_data){
 	URL_COMPONENTS urlinfo;
 	char *rgpszAcceptTypes[] = { "application/octet-stream", NULL };
 	char *posturl;
@@ -429,7 +429,7 @@ DWORD https_post_binary(char *target, unsigned char **response_data){
 	strncat_s(hostheader, hostheaderlength, urlinfo.lpszHostName, urlinfo.dwHostNameLength);
 
 	/* call the actual request making function */
-	response_code = https_raw_request(1, urlinfo.lpszHostName, urlinfo.nPort, NULL, posturl, rgpszAcceptTypes, post_data, post_data_length, response_data);
+	response_code = http_raw_request(1, urlinfo.lpszHostName, urlinfo.nPort, NULL, posturl, rgpszAcceptTypes, post_data, post_data_length, response_data);
 
 	/* free all the resources */
 	destroy_url_components(&urlinfo);
